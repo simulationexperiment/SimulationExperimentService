@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.johnny.simulationexperimentservice.mapper.ExperimentTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.johnny.simulationexperimentservice.entity.ExperimentTypeEntity" >
+    <id column="experiment_type_id" property="experimentTypeID" jdbcType="INTEGER" />
+    <result column="experiment_type_name" property="experimentTypeName" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="searchTotalCount" parameterType="string" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.experiment_type_data;
+  </select>
+  <select id="searchList" resultMap="BaseResultMap">
+    SELECT
+      A.experiment_type_id,
+      A.experiment_type_name,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.experiment_type_data A
+    LEFT JOIN simulation_experiment.system_account B
+    ON A.create_user = B.account_id
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchByID" resultMap="BaseResultMap">
+
+  </select>
+  <select id="existCheck" resultType="java.lang.Integer">
+
+  </select>
+  <insert id="insert" parameterType="com.johnny.simulationexperimentservice.entity.SystemEntity" >
+
+  </insert>
+  <update id="update" parameterType="com.johnny.simulationexperimentservice.entity.SystemEntity" >
+
+  </update>
+  <delete id="delete" parameterType="com.johnny.simulationexperimentservice.entity.SystemEntity" >
+
+  </delete>
+</mapper>
