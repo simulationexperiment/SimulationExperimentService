@@ -74,6 +74,27 @@
     ON A.create_user = B.user_id
     WHERE A.user_id = #{arg0,jdbcType=INTEGER};
   </select>
+  <select id="login" resultMap="BaseResultMap">
+    SELECT
+      A.user_id,
+      A.cellphone,
+      A.user_code,
+      A.full_name,
+      A.sex,
+      A.user_role,
+      A.email,
+      A.password,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.system_users A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    WHERE A.cellphone = #{arg0,jdbcType=VARCHAR}
+    AND A.password = #{arg1,jdbcType=VARCHAR};
+  </select>
+
   <select id="existCheck" resultType="java.lang.Integer">
 
   </select>

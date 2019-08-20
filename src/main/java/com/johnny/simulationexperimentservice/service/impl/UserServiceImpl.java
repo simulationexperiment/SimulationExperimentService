@@ -48,6 +48,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UnifiedResponse login(String cellphone, String password) {
+        try {
+            UserEntity entity =  myMapper.login(cellphone, password);
+            if(entity == null){
+                return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
+            }
+            UserVO model = new UserVO();
+            ObjectConvertUtils.toBean(entity, model);
+            return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.ONE_SEARCH_COUNT, model);
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            return UnifiedResponseManager.buildExceptionResponse();
+        }
+    }
+
+    @Override
     public UnifiedResponse findList(int pageNumber, int pageSize) {
         return null;
     }

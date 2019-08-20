@@ -6,3 +6,27 @@
 ### SQL: SELECT       A.system_id,       A.system_name,       B.admin_name AS create_user,       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,       B.admin_name AS update_user,       DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time     FROM simulation_experiment.system_data A     LEFT JOIN simulation_experiment.system_account B     ON A.create_user = B.account_id     ORDER BY A.update_time DESC     LIMIT ?, ?;
 ### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'B.admin_name' in 'field list'
 ; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'B.admin_name' in 'field list'
+[2019-08-19 23:44:51,388][http-nio-8080-exec-2][ERROR][com.johnny.simulationexperimentservice.service.impl.SystemServiceImpl:46] org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'simulation_experiment.system_account' doesn't exist
+### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/SystemMapping.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT       A.system_id,       A.system_name,       B.full_name AS create_user,       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,       B.full_name AS update_user,       DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time     FROM simulation_experiment.system_data A     LEFT JOIN simulation_experiment.system_account B     ON A.create_user = B.account_id     ORDER BY A.update_time DESC     LIMIT ?, ?;
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'simulation_experiment.system_account' doesn't exist
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'simulation_experiment.system_account' doesn't exist
+[2019-08-19 23:46:44,596][http-nio-8080-exec-2][ERROR][com.johnny.simulationexperimentservice.service.impl.SystemServiceImpl:46] org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'simulation_experiment.system_account' doesn't exist
+### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/SystemMapping.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT       A.system_id,       A.system_name,       B.full_name AS create_user,       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,       B.full_name AS update_user,       DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time     FROM simulation_experiment.system_data A     LEFT JOIN simulation_experiment.system_account B     ON A.create_user = B.account_id     ORDER BY A.update_time DESC     LIMIT ?, ?;
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'simulation_experiment.system_account' doesn't exist
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'simulation_experiment.system_account' doesn't exist
+[2019-08-19 23:50:59,888][http-nio-8080-exec-2][ERROR][com.johnny.simulationexperimentservice.service.impl.SystemServiceImpl:46] org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'B.account_id' in 'on clause'
+### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/SystemMapping.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT       A.system_id,       A.system_name,       B.full_name AS create_user,       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,       B.full_name AS update_user,       DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time     FROM simulation_experiment.system_data A     LEFT JOIN simulation_experiment.system_users B     ON A.create_user = B.account_id     ORDER BY A.update_time DESC     LIMIT ?, ?;
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'B.account_id' in 'on clause'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'B.account_id' in 'on clause'

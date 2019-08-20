@@ -22,6 +22,11 @@ public class UserController {
         return myService.find(id);
     }
 
+    @RequestMapping(value = "/login/{cellphone}/{password}", method = RequestMethod.GET)
+    public UnifiedResponse login(@PathVariable("cellphone") String cellphone, @PathVariable("password") String password){
+        return myService.login(cellphone, password);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public UnifiedResponse add(@RequestBody UserDTO dto){
         return myService.add(dto);
