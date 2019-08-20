@@ -15,5 +15,5 @@ public interface BaseMapper<T> {
 
     int update(T entity);
 
-    int delete(T entity);
+    int delete(int id);
 }

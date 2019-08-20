@@ -69,7 +69,7 @@ public class ExperimentTypeServiceImpl implements BaseService<ExperimentTypeDTO,
     }
 
     @Override
-    public UnifiedResponse delete(ExperimentTypeDTO dto) {
+    public UnifiedResponse delete(int id) {
         return null;
     }
 }

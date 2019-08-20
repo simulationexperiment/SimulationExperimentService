@@ -23,8 +23,8 @@
       B.full_name AS update_user,
       DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
     FROM simulation_experiment.experiment_type_data A
-    LEFT JOIN simulation_experiment.system_account B
-    ON A.create_user = B.account_id
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
     ORDER BY A.update_time DESC
     LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
   </select>
@@ -40,7 +40,7 @@
   <update id="update" parameterType="com.johnny.simulationexperimentservice.entity.SystemEntity" >
 
   </update>
-  <delete id="delete" parameterType="com.johnny.simulationexperimentservice.entity.SystemEntity" >
+  <delete id="delete" parameterType="java.lang.Integer">
 
   </delete>
 </mapper>

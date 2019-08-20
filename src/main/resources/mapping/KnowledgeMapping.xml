@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.johnny.simulationexperimentservice.mapper.KnowledgeMapper" >
+  <resultMap id="BaseResultMap" type="com.johnny.simulationexperimentservice.entity.KnowledgeEntity" >
+    <id column="knowledge_id" property="knowledgeID" jdbcType="INTEGER" />
+    <result column="knowledge_name" property="knowledgeName" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemID" jdbcType="INTEGER" />
+    <result column="system_name" property="systemName" jdbcType="VARCHAR" />
+    <result column="knowledge_content" property="knowledgeContent" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="searchTotalCount" parameterType="string" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.knowledge;
+  </select>
+  <select id="searchList" resultMap="BaseResultMap">
+    SELECT
+      A.knowledge_id,
+      A.knowledge_name,
+      A.knowledge_content,
+      A.system_id,
+      C.system_name,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.knowledge A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_data C
+    ON A.system_id = C.system_id
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchListByContent" resultMap="BaseResultMap">
+    SELECT
+      A.knowledge_id,
+      A.knowledge_name,
+      A.knowledge_content,
+      A.system_id,
+      C.system_name,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.knowledge A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_data C
+    ON A.system_id = C.system_id
+    WHERE 1=1
+    <if test="arg2 != 0">
+      AND A.system_id = #{arg2,jdbcType=INTEGER}
+    </if>
+    <if test="arg3 != 0">
+      AND A.create_user = #{arg3,jdbcType=INTEGER}
+    </if>
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchByID" resultMap="BaseResultMap">
+    SELECT
+      A.knowledge_id,
+      A.knowledge_name,
+      A.knowledge_content,
+      A.system_id,
+      C.system_name,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.knowledge A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_data C
+    ON A.system_id = C.system_id
+    WHERE A.knowledge_id = #{arg0,jdbcType=INTEGER};
+  </select>
+  <select id="existCheck" resultType="java.lang.Integer">
+
+  </select>
+  <insert id="insert" parameterType="com.johnny.simulationexperimentservice.entity.KnowledgeEntity" >
+    INSERT INTO simulation_experiment.knowledge (
+      knowledge_name,
+      system_id,
+      knowledge_content,
+      create_user,
+      update_user
+    )
+    VALUES (
+      #{knowledgeName, jdbcType=VARCHAR},
+      #{systemID, jdbcType=INTEGER},
+      #{knowledgeContent, jdbcType=VARCHAR},
+      #{createUser, jdbcType=VARCHAR},
+      #{updateUser, jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="update" parameterType="com.johnny.simulationexperimentservice.entity.KnowledgeEntity" >
+    UPDATE simulation_experiment.knowledge SET
+      knowledge_name = #{knowledgeName,jdbcType=VARCHAR},
+      system_id = #{systemID,jdbcType=INTEGER},
+      knowledge_content = #{knowledgeContent,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    WHERE knowledge_id = #{knowledgeID,jdbcType=INTEGER}
+  </update>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    DELETE FROM simulation_experiment.knowledge
+    WHERE knowledge_id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

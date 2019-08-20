@@ -69,7 +69,7 @@ public class CourseServiceImpl implements BaseService<CourseDTO, CourseVO, Cours
     }
 
     @Override
-    public UnifiedResponse delete(CourseDTO dto) {
+    public UnifiedResponse delete(int id) {
         return null;
     }
 }

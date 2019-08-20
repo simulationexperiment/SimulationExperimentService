@@ -69,7 +69,7 @@ public class SystemServiceImpl implements BaseService<SystemDTO, SystemVO, Syste
     }
 
     @Override
-    public UnifiedResponse delete(SystemDTO dto) {
+    public UnifiedResponse delete(int id) {
         return null;
     }
 }

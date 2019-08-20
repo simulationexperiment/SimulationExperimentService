@@ -69,7 +69,7 @@ public class ResourceTypeServiceImpl implements BaseService<ResourceTypeDTO, Res
     }
 
     @Override
-    public UnifiedResponse delete(ResourceTypeDTO dto) {
+    public UnifiedResponse delete(int id) {
         return null;
     }
 }
