@@ -1,9 +1,6 @@
 package com.johnny.simulationexperimentservice.controller;
 
-import com.johnny.simulationexperimentservice.service.impl.CourseServiceImpl;
-import com.johnny.simulationexperimentservice.service.impl.ExperimentTypeServiceImpl;
-import com.johnny.simulationexperimentservice.service.impl.ResourceTypeServiceImpl;
-import com.johnny.simulationexperimentservice.service.impl.SystemServiceImpl;
+import com.johnny.simulationexperimentservice.service.impl.*;
 import com.johnny.simulationexperimentservice.vo.UnifiedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +23,9 @@ public class BaseDataController {
     @Autowired
     private ExperimentTypeServiceImpl experimentTypeService;
 
+    @Autowired
+    private ExercisesTypeServiceImpl exercisesTypeService;
+
     @RequestMapping(value = "/system/{pageNumber}/{pageSize}", method = RequestMethod.GET)
     public UnifiedResponse findSystemData(@PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize){
         return systemService.findList(pageNumber, pageSize);
@@ -44,5 +44,10 @@ public class BaseDataController {
     @RequestMapping(value = "/experimentType/{pageNumber}/{pageSize}", method = RequestMethod.GET)
     public UnifiedResponse findExperimentTypeData(@PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize){
         return experimentTypeService.findList(pageNumber, pageSize);
+    }
+
+    @RequestMapping(value = "/exercisesType/{pageNumber}/{pageSize}", method = RequestMethod.GET)
+    public UnifiedResponse findExercisesTypeData(@PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize){
+        return exercisesTypeService.findList(pageNumber, pageSize);
     }
 }

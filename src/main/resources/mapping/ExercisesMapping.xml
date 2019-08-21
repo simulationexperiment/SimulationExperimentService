@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.johnny.simulationexperimentservice.mapper.ExercisesMapper" >
+  <resultMap id="BaseResultMap" type="com.johnny.simulationexperimentservice.entity.ExercisesEntity" >
+    <id column="exercises_id" property="exercisesID" jdbcType="INTEGER" />
+    <result column="system_id" property="systemID" jdbcType="INTEGER" />
+    <result column="system_name" property="systemName" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseID" jdbcType="INTEGER" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="knowledge_id" property="knowledgeID" jdbcType="INTEGER" />
+    <result column="knowledge_name" property="knowledgeName" jdbcType="VARCHAR" />
+    <result column="exercises_type_id" property="exercisesTypeID" jdbcType="INTEGER" />
+    <result column="exercises_type_name" property="exercisesTypeName" jdbcType="VARCHAR" />
+    <result column="experiment_type_id" property="experimentTypeID" jdbcType="INTEGER" />
+    <result column="experiment_type_name" property="experimentTypeName" jdbcType="VARCHAR" />
+    <result column="exercises_content" property="exercisesContent" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="searchTotalCount" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.exercises;
+  </select>
+  <select id="searchList" resultMap="BaseResultMap">
+    SELECT
+      A.exercises_id,
+      A.system_id,
+      C.system_name,
+      A.course_id,
+      D.course_name,
+      A.knowledge_id,
+      E.knowledge_name,
+      A.exercises_type_id,
+      F.exercises_type_name,
+      A.experiment_type_id,
+      G.experiment_type_name,
+      A.exercises_content,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.exercises A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_data C
+    ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.course_data D
+    ON A.course_id = D.course_id
+    LEFT JOIN simulation_experiment.knowledge E
+    ON A.knowledge_id = E.knowledge_id
+    LEFT JOIN simulation_experiment.exercises_type_data F
+    ON A.exercises_type_id = F.exercises_type_id
+    LEFT JOIN simulation_experiment.experiment_type_data G
+    ON A.experiment_type_id = G.experiment_type_id
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchListByContent" resultMap="BaseResultMap">
+    SELECT
+      A.exercises_id,
+      A.system_id,
+      C.system_name,
+      A.course_id,
+      D.course_name,
+      A.knowledge_id,
+      E.knowledge_name,
+      A.exercises_type_id,
+      F.exercises_type_name,
+      A.experiment_type_id,
+      G.experiment_type_name,
+      A.exercises_content,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.exercises A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_data C
+    ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.course_data D
+    ON A.course_id = D.course_id
+    LEFT JOIN simulation_experiment.knowledge E
+    ON A.knowledge_id = E.knowledge_id
+    LEFT JOIN simulation_experiment.exercises_type_data F
+    ON A.exercises_type_id = F.exercises_type_id
+    LEFT JOIN simulation_experiment.experiment_type_data G
+    ON A.experiment_type_id = G.experiment_type_id
+    WHERE 1=1
+    <if test="arg2 != 0">
+      AND A.system_id = #{arg2,jdbcType=INTEGER}
+    </if>
+    <if test="arg3 != 0">
+      AND A.knowledge_id = #{arg3,jdbcType=INTEGER}
+    </if>
+    <if test="arg4 != 0">
+      AND A.create_user = #{arg4,jdbcType=INTEGER}
+    </if>
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchByID" resultMap="BaseResultMap">
+    SELECT
+      A.exercises_id,
+      A.system_id,
+      C.system_name,
+      A.course_id,
+      D.course_name,
+      A.knowledge_id,
+      E.knowledge_name,
+      A.exercises_type_id,
+      F.exercises_type_name,
+      A.experiment_type_id,
+      G.experiment_type_name,
+      A.exercises_content,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.exercises A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_data C
+    ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.course_data D
+    ON A.course_id = D.course_id
+    LEFT JOIN simulation_experiment.knowledge E
+    ON A.knowledge_id = E.knowledge_id
+    LEFT JOIN simulation_experiment.exercises_type_data F
+    ON A.exercises_type_id = F.exercises_type_id
+    LEFT JOIN simulation_experiment.experiment_type_data G
+    ON A.experiment_type_id = G.experiment_type_id
+    WHERE A.exercises_id = #{arg0,jdbcType=INTEGER};
+  </select>
+  <select id="existCheck" resultType="java.lang.Integer">
+
+  </select>
+  <insert id="insert" parameterType="com.johnny.simulationexperimentservice.entity.KnowledgeEntity" >
+    INSERT INTO simulation_experiment.exercises (
+      system_id,
+      course_id,
+      knowledge_id,
+      exercises_type_id,
+      experiment_type_id,
+      exercises_content,
+      create_user,
+      update_user
+    )
+    VALUES (
+      #{systemID, jdbcType=INTEGER},
+      #{courseID, jdbcType=INTEGER},
+      #{knowledgeID, jdbcType=INTEGER},
+      #{exercisesTypeID, jdbcType=INTEGER},
+      #{experimentTypeID, jdbcType=INTEGER},
+      #{exercisesContent, jdbcType=VARCHAR},
+      #{createUser, jdbcType=VARCHAR},
+      #{updateUser, jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="update" parameterType="com.johnny.simulationexperimentservice.entity.KnowledgeEntity" >
+    UPDATE simulation_experiment.exercises SET
+      system_id = #{systemID,jdbcType=INTEGER},
+      course_id = #{courseID,jdbcType=INTEGER},
+      knowledge_id = #{knowledgeID,jdbcType=INTEGER},
+      exercises_type_id = #{exercisesTypeID,jdbcType=INTEGER},
+      experiment_type_id = #{experimentTypeID,jdbcType=INTEGER},
+      exercises_content = #{exercisesContent,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    WHERE exercises_id = #{exercisesID,jdbcType=INTEGER}
+  </update>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    DELETE FROM simulation_experiment.exercises
+    WHERE exercises_id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>
