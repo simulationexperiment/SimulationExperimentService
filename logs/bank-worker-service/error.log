@@ -1,40 +1,8 @@
-[2019-08-21 14:57:41,330][http-nio-8080-exec-9][ERROR][com.johnny.simulationexperimentservice.service.impl.KnowledgeServiceImpl:84] org.springframework.dao.DataIntegrityViolationException: 
-### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/KnowledgeMapping.xml]
-### The error may involve com.johnny.simulationexperimentservice.mapper.KnowledgeMapper.insert-Inline
+[2019-08-22 11:05:49,373][http-nio-8080-exec-1][ERROR][com.johnny.simulationexperimentservice.service.impl.TeachingResourceServiceImpl:126] org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'exercises_id' in 'where clause'
+### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/TeachingResourceMapping.xml]
+### The error may involve com.johnny.simulationexperimentservice.mapper.TeachingResourceMapper.delete-Inline
 ### The error occurred while setting parameters
-### SQL: INSERT INTO simulation_experiment.knowledge (       knowledge_name,       system_id,       knowledge_content,       create_user,       update_user     )     VALUES (       ?,       ?,       ?,       ?,       ?     )
-### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-; SQL []; Column 'create_user' cannot be null; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-[2019-08-21 14:59:37,565][http-nio-8080-exec-1][ERROR][com.johnny.simulationexperimentservice.service.impl.KnowledgeServiceImpl:84] org.springframework.dao.DataIntegrityViolationException: 
-### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/KnowledgeMapping.xml]
-### The error may involve com.johnny.simulationexperimentservice.mapper.KnowledgeMapper.insert-Inline
-### The error occurred while setting parameters
-### SQL: INSERT INTO simulation_experiment.knowledge (       knowledge_name,       system_id,       knowledge_content,       create_user,       update_user     )     VALUES (       ?,       ?,       ?,       ?,       ?     )
-### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-; SQL []; Column 'create_user' cannot be null; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-[2019-08-21 15:01:05,420][http-nio-8080-exec-2][ERROR][com.johnny.simulationexperimentservice.service.impl.KnowledgeServiceImpl:84] org.springframework.dao.DataIntegrityViolationException: 
-### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/KnowledgeMapping.xml]
-### The error may involve com.johnny.simulationexperimentservice.mapper.KnowledgeMapper.insert-Inline
-### The error occurred while setting parameters
-### SQL: INSERT INTO simulation_experiment.knowledge (       knowledge_name,       system_id,       knowledge_content,       create_user,       update_user     )     VALUES (       ?,       ?,       ?,       ?,       ?     )
-### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-; SQL []; Column 'create_user' cannot be null; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-[2019-08-21 15:02:15,439][http-nio-8080-exec-3][ERROR][com.johnny.simulationexperimentservice.service.impl.KnowledgeServiceImpl:84] org.springframework.dao.DataIntegrityViolationException: 
-### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/KnowledgeMapping.xml]
-### The error may involve com.johnny.simulationexperimentservice.mapper.KnowledgeMapper.insert-Inline
-### The error occurred while setting parameters
-### SQL: INSERT INTO simulation_experiment.knowledge (       knowledge_name,       system_id,       knowledge_content,       create_user,       update_user     )     VALUES (       ?,       ?,       ?,       ?,       ?     )
-### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-; SQL []; Column 'create_user' cannot be null; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'create_user' cannot be null
-[2019-08-21 16:23:04,063][http-nio-8080-exec-5][ERROR][com.johnny.simulationexperimentservice.service.impl.ExercisesServiceImpl:85] org.springframework.dao.DataIntegrityViolationException: 
-### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'exercises_content' cannot be null
-### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/ExercisesMapping.xml]
-### The error may involve com.johnny.simulationexperimentservice.mapper.ExercisesMapper.insert-Inline
-### The error occurred while setting parameters
-### SQL: INSERT INTO simulation_experiment.exercises (       system_id,       course_id,       knowledge_id,       exercises_type_id,       experiment_type_id,       exercises_content,       create_user,       update_user     )     VALUES (       ?,       ?,       ?,       ?,       ?,       ?,       ?,       ?     )
-### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'exercises_content' cannot be null
-; SQL []; Column 'exercises_content' cannot be null; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'exercises_content' cannot be null
+### SQL: DELETE FROM simulation_experiment.teaching_resource     WHERE exercises_id = ?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'exercises_id' in 'where clause'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'exercises_id' in 'where clause'

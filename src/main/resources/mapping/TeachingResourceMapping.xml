@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.johnny.simulationexperimentservice.mapper.TeachingResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.johnny.simulationexperimentservice.entity.TeachingResourceEntity" >
+    <id column="resource_id" property="resourceID" jdbcType="INTEGER" />
+    <result column="system_id" property="systemID" jdbcType="INTEGER" />
+    <result column="system_name" property="systemName" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseID" jdbcType="INTEGER" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="resource_type_id" property="resourceTypeID" jdbcType="INTEGER" />
+    <result column="resource_type_name" property="resourceTypeName" jdbcType="VARCHAR" />
+    <result column="resource_name" property="resourceName" jdbcType="VARCHAR" />
+    <result column="resource_uri" property="resourceUri" jdbcType="VARCHAR" />
+    <result column="auditor_id" property="auditorID" jdbcType="INTEGER" />
+    <result column="auditor_name" property="auditorName" jdbcType="VARCHAR" />
+    <result column="resource_status" property="resourceStatus" jdbcType="VARCHAR" />
+    <result column="resource_status_text" property="resourceStatusText" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="searchTotalCount" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.teaching_resource;
+  </select>
+  <select id="searchList" resultMap="BaseResultMap">
+    SELECT
+      A.resource_id,
+      A.system_id,
+      C.system_name,
+      A.course_id,
+      D.course_name,
+      A.resource_type_id,
+      E.source_type_name AS resource_type_name,
+      REVERSE(LEFT(REVERSE(A.resource_uri),INSTR(REVERSE(A.resource_uri), '/') -1 )) AS resource_name,
+      A.resource_uri,
+      A.auditor_id,
+      F.full_name AS auditor_name,
+      A.resource_status,
+      CASE WHEN A.resource_status = 'P' THEN '待审核'
+      WHEN A.resource_status = 'A' THEN '审核通过'
+      WHEN A.resource_status = 'R' THEN '审核未通过'
+      ELSE '未知数据状态'
+      END AS resource_status_text,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.teaching_resource A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_data C
+    ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.course_data D
+    ON A.course_id = D.course_id
+    LEFT JOIN simulation_experiment.resource_type_data E
+    ON A.resource_type_id = E.source_type_id
+    LEFT JOIN simulation_experiment.system_users F
+    ON A.auditor_id = F.user_id
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchListByContent" resultMap="BaseResultMap">
+    SELECT
+      A.resource_id,
+      A.system_id,
+      C.system_name,
+      A.course_id,
+      D.course_name,
+      A.resource_type_id,
+      E.source_type_name AS resource_type_name,
+      REVERSE(LEFT(REVERSE(A.resource_uri),INSTR(REVERSE(A.resource_uri), '/') -1 )) AS resource_name,
+      A.resource_uri,
+      A.auditor_id,
+      F.full_name AS auditor_name,
+      A.resource_status,
+      CASE WHEN A.resource_status = 'P' THEN '待审核'
+      WHEN A.resource_status = 'A' THEN '审核通过'
+      WHEN A.resource_status = 'R' THEN '审核未通过'
+      ELSE '未知数据状态'
+      END AS resource_status_text,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.teaching_resource A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_data C
+    ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.course_data D
+    ON A.course_id = D.course_id
+    LEFT JOIN simulation_experiment.resource_type_data E
+    ON A.resource_type_id = E.source_type_id
+    LEFT JOIN simulation_experiment.system_users F
+    ON A.auditor_id = F.user_id
+    WHERE 1=1
+    <if test="arg2 != 0">
+      AND A.system_id = #{arg2,jdbcType=INTEGER}
+    </if>
+    <if test="arg3 != 0">
+      AND A.course_id = #{arg3,jdbcType=INTEGER}
+    </if>
+    <if test="arg4 != 0">
+      AND A.resource_type_id = #{arg4,jdbcType=INTEGER}
+    </if>
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchByID" resultMap="BaseResultMap">
+    SELECT
+      A.resource_id,
+      A.system_id,
+      C.system_name,
+      A.course_id,
+      D.course_name,
+      A.resource_type_id,
+      E.source_type_name,
+      REVERSE(LEFT(REVERSE(A.resource_uri),INSTR(REVERSE(A.resource_uri), '/') -1 )) AS resource_name,
+      A.resource_uri,
+      A.auditor_id,
+      F.full_name,
+      A.resource_status,
+      CASE WHEN A.resource_status = 'P' THEN '待审核'
+      WHEN A.resource_status = 'A' THEN '审核通过'
+      WHEN A.resource_status = 'R' THEN '审核未通过'
+      ELSE '未知数据状态'
+      END AS order_status_text,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      B.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.teaching_resource A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_data C
+    ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.course_data D
+    ON A.course_id = D.course_id
+    LEFT JOIN simulation_experiment.resource_type_data E
+    ON A.resource_type_id = E.source_type_id
+    LEFT JOIN simulation_experiment.system_users F
+    ON A.auditor_id = F.user_id
+    WHERE A.resource_id = #{arg0,jdbcType=INTEGER};
+  </select>
+  <select id="existCheck" resultType="java.lang.Integer">
+
+  </select>
+  <insert id="insert" parameterType="com.johnny.simulationexperimentservice.entity.TeachingResourceEntity" >
+    INSERT INTO simulation_experiment.teaching_resource (
+      system_id,
+      course_id,
+      resource_type_id,
+      resource_uri,
+      auditor_id,
+      resource_status,
+      create_user,
+      update_user
+    )
+    VALUES (
+      #{systemID, jdbcType=INTEGER},
+      #{courseID, jdbcType=INTEGER},
+      #{resourceTypeID, jdbcType=INTEGER},
+      #{resourceUri, jdbcType=VARCHAR},
+      #{auditorID, jdbcType=INTEGER},
+      #{resourceStatus, jdbcType=VARCHAR},
+      #{createUser, jdbcType=VARCHAR},
+      #{updateUser, jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="update" parameterType="com.johnny.simulationexperimentservice.entity.TeachingResourceEntity" >
+    UPDATE simulation_experiment.teaching_resource SET
+      system_id = #{systemID,jdbcType=INTEGER},
+      course_id = #{courseID,jdbcType=INTEGER},
+      resource_type_id = #{resourceTypeID,jdbcType=INTEGER},
+      resource_uri = #{resourceUri,jdbcType=VARCHAR},
+      auditor_id = #{auditorID,jdbcType=INTEGER},
+      resource_status = 'P',
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    WHERE resource_id = #{resourceID,jdbcType=INTEGER}
+  </update>
+  <update id="changeStatus" parameterType="com.johnny.simulationexperimentservice.entity.TeachingResourceEntity" >
+    UPDATE simulation_experiment.teaching_resource SET
+      resource_status = #{resourceStatus,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    WHERE resource_id = #{resourceID,jdbcType=INTEGER}
+  </update>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    DELETE FROM simulation_experiment.teaching_resource
+    WHERE resource_id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>
