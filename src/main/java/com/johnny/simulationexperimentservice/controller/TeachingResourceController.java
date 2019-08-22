@@ -12,13 +12,14 @@ public class TeachingResourceController {
     @Autowired
     private TeachingResourceServiceImpl myService;
 
-    @RequestMapping(value = "/{pageNumber}/{pageSize}/{systemID}/{courseID}/{resourceTypeID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{pageNumber}/{pageSize}/{systemID}/{courseID}/{resourceTypeID}/{resourceStatus}", method = RequestMethod.GET)
     public UnifiedResponse findSystemData(@PathVariable("pageNumber") int pageNumber,
                                           @PathVariable("pageSize") int pageSize,
                                           @PathVariable("systemID") int systemID,
                                           @PathVariable("courseID") int courseID,
-                                          @PathVariable("resourceTypeID") int resourceTypeID){
-        return myService.findListByContent(pageNumber, pageSize, systemID, courseID, resourceTypeID);
+                                          @PathVariable("resourceTypeID") int resourceTypeID,
+                                          @PathVariable("resourceStatus") String resourceStatus){
+        return myService.findListByContent(pageNumber, pageSize, systemID, courseID, resourceTypeID, resourceStatus);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

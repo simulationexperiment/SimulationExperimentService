@@ -26,7 +26,7 @@ public class TeachingResourceServiceImpl implements TeachingResourceService {
     private Logger logger = LogManager.getLogger(TeachingResourceServiceImpl.class);
 
     @Override
-    public UnifiedResponse findListByContent(int pageNumber, int pageSize, int systemID, int courseID, int resourceTypeID) {
+    public UnifiedResponse findListByContent(int pageNumber, int pageSize, int systemID, int courseID, int resourceTypeID, String resourceStatus) {
         try {
             int startIndex = (pageNumber - 1) * pageSize;
             List<TeachingResourceVO> modelList = new ArrayList<>();
@@ -34,7 +34,7 @@ public class TeachingResourceServiceImpl implements TeachingResourceService {
             if(totalCount == 0){
                 return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
             }
-            List<TeachingResourceEntity> entityList =  myMapper.searchListByContent(startIndex, pageSize, systemID, courseID, resourceTypeID);
+            List<TeachingResourceEntity> entityList =  myMapper.searchListByContent(startIndex, pageSize, systemID, courseID, resourceTypeID, resourceStatus.equals("null") ? null : resourceStatus);
             for (TeachingResourceEntity entity : entityList) {
                 TeachingResourceVO model = new TeachingResourceVO();
                 ObjectConvertUtils.toBean(entity, model);

@@ -106,6 +106,9 @@
     <if test="arg4 != 0">
       AND A.resource_type_id = #{arg4,jdbcType=INTEGER}
     </if>
+    <if test="arg5 != null">
+      AND A.resource_status = #{arg5,jdbcType=INTEGER}
+    </if>
     ORDER BY A.update_time DESC
     LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
   </select>
