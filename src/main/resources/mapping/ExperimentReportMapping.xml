@@ -271,7 +271,7 @@
   </update>
   <update id="updateScore" parameterType="com.johnny.simulationexperimentservice.entity.ExperimentReportEntity" >
     UPDATE simulation_experiment.experiment_report SET
-      report_status = #{reportStatus,jdbcType=VARCHAR},
+      report_status = 'C',
       discipline_score = #{disciplineScore,jdbcType=DOUBLE},
       practice_score = #{practiceScore,jdbcType=DOUBLE},
       report_score = #{reportScore,jdbcType=DOUBLE},
