@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.johnny.simulationexperimentservice.mapper.ExperimentReportMapper" >
+  <resultMap id="BaseResultMap" type="com.johnny.simulationexperimentservice.entity.ExperimentReportEntity" >
+    <id column="report_id" property="reportID" jdbcType="INTEGER" />
+    <result column="system_id" property="systemID" jdbcType="INTEGER" />
+    <result column="system_name" property="systemName" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseID" jdbcType="INTEGER" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="experiment_type_id" property="experimentTypeID" jdbcType="INTEGER" />
+    <result column="experiment_type_name" property="experimentTypeName" jdbcType="VARCHAR" />
+    <result column="experiment_id" property="experimentID" jdbcType="INTEGER" />
+    <result column="experiment_name" property="experimentName" jdbcType="VARCHAR" />
+
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="report_uri" property="reportUri" jdbcType="VARCHAR" />
+    <result column="report_name" property="reportName" jdbcType="VARCHAR" />
+    <result column="report_status" property="reportStatus" jdbcType="VARCHAR" />
+    <result column="report_status_text" property="reportStatusText" jdbcType="VARCHAR" />
+
+    <result column="corrector_id" property="correctorID" jdbcType="INTEGER" />
+    <result column="corrector_name" property="correctorName" jdbcType="VARCHAR" />
+
+    <result column="discipline_score" property="disciplineScore" jdbcType="DOUBLE" />
+    <result column="practice_score" property="practiceScore" jdbcType="DOUBLE" />
+    <result column="report_score" property="reportScore" jdbcType="DOUBLE" />
+    <result column="total_score" property="totalScore" jdbcType="DOUBLE" />
+
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="searchTotalCount" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.experiment_report;
+  </select>
+  <select id="searchTotalCountByContent" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.experiment_report
+    WHERE 1=1
+    <if test="arg0 != 0">
+      AND system_id = #{arg0,jdbcType=INTEGER}
+    </if>
+    <if test="arg1 != 0">
+      AND course_id = #{arg1,jdbcType=INTEGER}
+    </if>
+    <if test="arg2 != 0">
+      AND experiment_type_id = #{arg2,jdbcType=INTEGER}
+    </if>
+    <if test="arg3 != null">
+      AND report_status = #{arg3,jdbcType=VARCHAR}
+    </if>;
+  </select>
+  <select id="searchList" resultMap="BaseResultMap">
+    SELECT
+      A.report_id,
+      A.system_id,
+      C.system_name,
+      A.course_id,
+      D.course_name,
+      A.experiment_type_id,
+      E.experiment_type_name,
+      A.experiment_id,
+      F.experiment_name,
+      DATE_FORMAT(A.start_time, '%Y-%m-%d %H:%i:%s') AS start_time,
+      DATE_FORMAT(A.end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+      A.report_uri,
+      REVERSE(LEFT(REVERSE(A.report_uri),INSTR(REVERSE(A.report_uri), '/') -1 )) AS report_name,
+      A.report_status,
+      CASE WHEN A.report_status = 'P' THEN '待批阅'
+      WHEN A.report_status = 'C' THEN '已批阅'
+      ELSE '未知数据状态'
+      END AS report_status_text,
+      A.corrector_id AS corrector_id,
+      G.full_name AS corrector_name,
+      A.discipline_score,
+      A.practice_score,
+      A.report_score,
+      (A.discipline_score + A.practice_score + A.report_score) AS total_score,
+      H.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      I.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.experiment_report A
+    INNER JOIN simulation_experiment.experiment_assign B
+      ON A.system_id = B.system_id
+      AND A.course_id = B.course_id
+      AND A.experiment_type_id = B.experiment_type_id
+      AND A.experiment_id = B.experiment_id
+    LEFT JOIN simulation_experiment.system_data C
+      ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.course_data D
+      ON A.course_id = D.course_id
+    LEFT JOIN simulation_experiment.experiment_type_data E
+      ON A.experiment_type_id = E.experiment_type_id
+    LEFT JOIN simulation_experiment.experiment F
+      ON A.experiment_id = F.experiment_id
+    LEFT JOIN simulation_experiment.system_users G
+      ON A.corrector_id = G.user_id
+    LEFT JOIN simulation_experiment.system_users H
+      ON A.create_user = H.user_id
+    LEFT JOIN simulation_experiment.system_users I
+      ON A.update_user = I.user_id
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchListByContent" resultMap="BaseResultMap">
+    SELECT
+      A.report_id,
+      A.system_id,
+      C.system_name,
+      A.course_id,
+      D.course_name,
+      A.experiment_type_id,
+      E.experiment_type_name,
+      A.experiment_id,
+      F.experiment_name,
+      DATE_FORMAT(A.start_time, '%Y-%m-%d %H:%i:%s') AS start_time,
+      DATE_FORMAT(A.end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+      A.report_uri,
+      REVERSE(LEFT(REVERSE(A.report_uri),INSTR(REVERSE(A.report_uri), '/') -1 )) AS report_name,
+      A.report_status,
+      CASE WHEN A.report_status = 'P' THEN '待批阅'
+      WHEN A.report_status = 'C' THEN '已批阅'
+      ELSE '未知数据状态'
+      END AS report_status_text,
+      A.corrector_id AS corrector_id,
+      G.full_name AS corrector_name,
+      A.discipline_score,
+      A.practice_score,
+      A.report_score,
+      (A.discipline_score + A.practice_score + A.report_score) AS total_score,
+      H.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      I.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.experiment_report A
+    INNER JOIN simulation_experiment.experiment_assign B
+      ON A.system_id = B.system_id
+      AND A.course_id = B.course_id
+      AND A.experiment_type_id = B.experiment_type_id
+      AND A.experiment_id = B.experiment_id
+    LEFT JOIN simulation_experiment.system_data C
+      ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.course_data D
+      ON A.course_id = D.course_id
+    LEFT JOIN simulation_experiment.experiment_type_data E
+      ON A.experiment_type_id = E.experiment_type_id
+    LEFT JOIN simulation_experiment.experiment F
+      ON A.experiment_id = F.experiment_id
+    LEFT JOIN simulation_experiment.system_users G
+      ON A.corrector_id = G.user_id
+    LEFT JOIN simulation_experiment.system_users H
+      ON A.create_user = H.user_id
+    LEFT JOIN simulation_experiment.system_users I
+      ON A.update_user = I.user_id
+    WHERE 1=1
+    <if test="arg2 != 0">
+      AND A.system_id = #{arg2,jdbcType=INTEGER}
+    </if>
+    <if test="arg3 != 0">
+      AND A.course_id = #{arg3,jdbcType=INTEGER}
+    </if>
+    <if test="arg4 != 0">
+      AND A.experiment_type_id = #{arg4,jdbcType=INTEGER}
+    </if>
+    <if test="arg5 != null">
+      AND A.report_status = #{arg5,jdbcType=VARCHAR}
+    </if>
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchByID" resultMap="BaseResultMap">
+    SELECT
+      A.report_id,
+      A.system_id,
+      C.system_name,
+      A.course_id,
+      D.course_name,
+      A.experiment_type_id,
+      E.experiment_type_name,
+      A.experiment_id,
+      F.experiment_name,
+      DATE_FORMAT(A.start_time, '%Y-%m-%d %H:%i:%s') AS start_time,
+      DATE_FORMAT(A.end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+      A.report_uri,
+      REVERSE(LEFT(REVERSE(A.report_uri),INSTR(REVERSE(A.report_uri), '/') -1 )) AS report_name,
+      A.report_status,
+      CASE WHEN A.report_status = 'P' THEN '待批阅'
+      WHEN A.report_status = 'C' THEN '已批阅'
+      ELSE '未知数据状态'
+      END AS report_status_text,
+      A.corrector_id AS corrector_id,
+      G.full_name AS corrector_name,
+      A.discipline_score,
+      A.practice_score,
+      A.report_score,
+      (A.discipline_score + A.practice_score + A.report_score) AS total_score,
+      H.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      I.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.experiment_report A
+    INNER JOIN simulation_experiment.experiment_assign B
+      ON A.system_id = B.system_id
+      AND A.course_id = B.course_id
+      AND A.experiment_type_id = B.experiment_type_id
+      AND A.experiment_id = B.experiment_id
+    LEFT JOIN simulation_experiment.system_data C
+      ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.course_data D
+      ON A.course_id = D.course_id
+    LEFT JOIN simulation_experiment.experiment_type_data E
+      ON A.experiment_type_id = E.experiment_type_id
+    LEFT JOIN simulation_experiment.experiment F
+      ON A.experiment_id = F.experiment_id
+    LEFT JOIN simulation_experiment.system_users G
+      ON A.corrector_id = G.user_id
+    LEFT JOIN simulation_experiment.system_users H
+      ON A.create_user = H.user_id
+    LEFT JOIN simulation_experiment.system_users I
+      ON A.update_user = I.user_id
+    WHERE A.report_id = #{arg0,jdbcType=INTEGER};
+  </select>
+  <select id="existCheck" resultType="java.lang.Integer">
+
+  </select>
+  <insert id="insert" parameterType="com.johnny.simulationexperimentservice.entity.ExperimentReportEntity" >
+    INSERT INTO simulation_experiment.experiment_report (
+      system_id,
+      course_id,
+      experiment_type_id,
+      experiment_id,
+      start_time,
+      end_time,
+      report_uri,
+      corrector_id,
+      create_user,
+      update_user
+    )
+    VALUES (
+      #{systemID, jdbcType=INTEGER},
+      #{courseID, jdbcType=INTEGER},
+      #{experimentTypeID, jdbcType=INTEGER},
+      #{experimentID, jdbcType=INTEGER},
+      #{startTime, jdbcType=VARCHAR},
+      #{endTime, jdbcType=VARCHAR},
+      #{reportUri, jdbcType=VARCHAR},
+      #{correctorID, jdbcType=INTEGER},
+      #{createUser, jdbcType=VARCHAR},
+      #{updateUser, jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="update" parameterType="com.johnny.simulationexperimentservice.entity.ExperimentReportEntity" >
+    UPDATE simulation_experiment.experiment_report SET
+      system_id = #{systemID,jdbcType=INTEGER},
+      course_id = #{courseID,jdbcType=INTEGER},
+      experiment_type_id = #{experimentTypeID,jdbcType=INTEGER},
+      experiment_id = #{experimentID,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      report_uri = #{reportUri,jdbcType=VARCHAR},
+      report_status = 'P',
+      corrector_id = #{correctorID,jdbcType=INTEGER},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    WHERE report_id = #{reportID,jdbcType=INTEGER}
+  </update>
+  <update id="updateScore" parameterType="com.johnny.simulationexperimentservice.entity.ExperimentReportEntity" >
+    UPDATE simulation_experiment.experiment_report SET
+      report_status = #{reportStatus,jdbcType=VARCHAR},
+      discipline_score = #{disciplineScore,jdbcType=DOUBLE},
+      practice_score = #{practiceScore,jdbcType=DOUBLE},
+      report_score = #{reportScore,jdbcType=DOUBLE},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    WHERE report_id = #{reportID,jdbcType=INTEGER}
+  </update>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    DELETE FROM simulation_experiment.experiment_report
+    WHERE report_id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>
