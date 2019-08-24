@@ -29,7 +29,7 @@ public class ExercisesServiceImpl implements ExercisesService {
         try {
             int startIndex = (pageNumber - 1) * pageSize;
             List<ExercisesVO> modelList = new ArrayList<>();
-            int totalCount = myMapper.searchTotalCount();
+            int totalCount = myMapper.searchTotalCountByContent(systemID, knowledgeID, userID);
             if(totalCount == 0){
                 return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
             }

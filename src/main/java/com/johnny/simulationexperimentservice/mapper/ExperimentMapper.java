@@ -7,5 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface ExperimentMapper extends BaseMapper<ExperimentEntity> {
+    int searchTotalCountByContent(int systemID, int courseID, int experimentTypeID);
+
     List<ExperimentEntity> searchListByContent(int startIndex, int pageSize, int systemID, int courseID, int experimentTypeID);
 }

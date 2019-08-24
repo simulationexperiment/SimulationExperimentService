@@ -7,6 +7,11 @@ import java.util.List;
 
 @Mapper
 public interface TeachingResourceMapper extends BaseMapper<TeachingResourceEntity> {
+    int searchTotalCountByContent(int systemID,
+                                  int courseID,
+                                  int resourceTypeID,
+                                  String resourceStatus);
+
     List<TeachingResourceEntity> searchListByContent(int startIndex,
                                                      int pageSize,
                                                      int systemID,

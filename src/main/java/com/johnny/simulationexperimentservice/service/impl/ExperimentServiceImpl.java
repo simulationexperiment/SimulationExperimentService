@@ -29,7 +29,7 @@ public class ExperimentServiceImpl implements ExperimentService {
         try {
             int startIndex = (pageNumber - 1) * pageSize;
             List<ExperimentVO> modelList = new ArrayList<>();
-            int totalCount = myMapper.searchTotalCount();
+            int totalCount = myMapper.searchTotalCountByContent(systemID, courseID, experimentTypeID);
             if(totalCount == 0){
                 return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
             }

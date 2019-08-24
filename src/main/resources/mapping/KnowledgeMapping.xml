@@ -12,10 +12,17 @@
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <select id="searchTotalCount" parameterType="string" resultType="java.lang.Integer">
+  <select id="searchTotalCountByContent" parameterType="string" resultType="java.lang.Integer">
     SELECT
     COUNT(1) AS TotalCount
-    FROM simulation_experiment.knowledge;
+    FROM simulation_experiment.knowledge
+    WHERE 1=1
+    <if test="arg0 != 0">
+      AND system_id = #{arg0,jdbcType=INTEGER}
+    </if>
+    <if test="arg1 != 0">
+      AND create_user = #{arg1,jdbcType=INTEGER}
+    </if>;
   </select>
   <select id="searchList" resultMap="BaseResultMap">
     SELECT

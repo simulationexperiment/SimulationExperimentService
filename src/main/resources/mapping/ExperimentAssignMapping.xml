@@ -22,6 +22,21 @@
     COUNT(1) AS TotalCount
     FROM simulation_experiment.experiment_assign;
   </select>
+  <select id="searchTotalCountByContent" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.experiment_assign
+    WHERE 1=1
+    <if test="arg0 != 0">
+      AND system_id = #{arg0,jdbcType=INTEGER}
+    </if>
+    <if test="arg1 != 0">
+      AND course_id = #{arg1,jdbcType=INTEGER}
+    </if>
+    <if test="arg2 != 0">
+      AND experiment_type_id = #{arg2,jdbcType=INTEGER}
+    </if>;
+  </select>
   <select id="searchList" resultMap="BaseResultMap">
     SELECT
       A.experiment_assign_id,

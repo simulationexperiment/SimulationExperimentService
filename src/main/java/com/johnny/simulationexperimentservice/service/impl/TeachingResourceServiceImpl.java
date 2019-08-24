@@ -30,7 +30,7 @@ public class TeachingResourceServiceImpl implements TeachingResourceService {
         try {
             int startIndex = (pageNumber - 1) * pageSize;
             List<TeachingResourceVO> modelList = new ArrayList<>();
-            int totalCount = myMapper.searchTotalCount();
+            int totalCount = myMapper.searchTotalCountByContent(systemID, courseID, resourceTypeID, resourceStatus.equals("null") ? null : resourceStatus);
             if(totalCount == 0){
                 return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
             }

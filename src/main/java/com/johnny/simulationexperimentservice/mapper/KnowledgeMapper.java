@@ -7,5 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface KnowledgeMapper extends BaseMapper<KnowledgeEntity> {
+    int searchTotalCountByContent(int systemID, int userID);
+
     List<KnowledgeEntity> searchListByContent(int startIndex, int pageSize, int systemID, int userID);
 }

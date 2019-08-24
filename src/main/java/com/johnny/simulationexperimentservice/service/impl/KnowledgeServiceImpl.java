@@ -33,7 +33,7 @@ public class KnowledgeServiceImpl implements KnowledgeService {
         try {
             int startIndex = (pageNumber - 1) * pageSize;
             List<KnowledgeVO> modelList = new ArrayList<>();
-            int totalCount = myMapper.searchTotalCount();
+            int totalCount = myMapper.searchTotalCountByContent(systemID, userID);
             if(totalCount == 0){
                 return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
             }
