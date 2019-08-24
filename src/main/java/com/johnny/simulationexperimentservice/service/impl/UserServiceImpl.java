@@ -119,6 +119,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UnifiedResponse changePassword(UserDTO dto) {
+        try {
+            UserEntity entity = new UserEntity();
+            ObjectConvertUtils.toBean(dto, entity);
+            entity.setUpdateUser(dto.getLoginUser());
+            int affectRow = myMapper.updatePassword(entity);
+            return UnifiedResponseManager.buildSubmitSuccessResponse(affectRow);
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            return UnifiedResponseManager.buildExceptionResponse();
+        }
+    }
+
+    @Override
     public UnifiedResponse delete(int id) {
         try {
             int affectRow = myMapper.delete(id);

@@ -183,3 +183,11 @@
 ### SQL: SELECT     COUNT(1) AS TotalCount     FROM simulation_experiment.teaching_resource     WHERE 1=1             AND A.system_id = ?                        ;
 ### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'A.system_id' in 'where clause'
 ; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'A.system_id' in 'where clause'
+[2019-08-24 23:09:21,854][http-nio-8081-exec-4][ERROR][com.johnny.simulationexperimentservice.service.impl.UserServiceImpl:97] org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'password' cannot be null
+### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/UserMapping.xml]
+### The error may involve com.johnny.simulationexperimentservice.mapper.UserMapper.insert-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO simulation_experiment.system_users (       cellphone,       user_code,       full_name,       sex,       user_role,       email,       password,       create_user,       update_user     )     VALUES (       ?,       ?,       ?,       ?,       ?,       ?,       ?,       ?,       ?     )
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'password' cannot be null
+; SQL []; Column 'password' cannot be null; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'password' cannot be null

@@ -8,9 +8,12 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper extends BaseMapper<UserEntity> {
+
     int searchTotalCountByUserRole(@Param("userRole")  String userRole);
 
     List<UserEntity> searchListByUserCode(int startIndex, int pageSize, String userRole);
 
     UserEntity login(String cellphone, String password);
+
+    int updatePassword(UserEntity entity);
 }

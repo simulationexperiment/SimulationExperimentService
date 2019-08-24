@@ -9,4 +9,6 @@ public interface UserService extends BaseService<UserDTO, UserVO, UserEntity> {
     UnifiedResponse findList(int pageNumber, int pageSize, String userRole);
 
     UnifiedResponse login(String cellphone, String password);
+
+    UnifiedResponse changePassword(UserDTO dto);
 }

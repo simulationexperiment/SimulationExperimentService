@@ -37,6 +37,11 @@ public class UserController {
         return myService.change(dto);
     }
 
+    @RequestMapping(value = "/changePassword", method = RequestMethod.PUT)
+    public UnifiedResponse changePassword(@RequestBody UserDTO dto){
+        return myService.changePassword(dto);
+    }
+
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public UnifiedResponse delete(@PathVariable("id") int id){
         return myService.delete(id);
