@@ -14,3 +14,12 @@
 ### SQL: SELECT     COUNT(1) AS TotalCount     FROM simulation_experiment.experiment_report     WHERE 1=1                                           AND auditor_id = ?           ;
 ### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'auditor_id' in 'where clause'
 ; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'auditor_id' in 'where clause'
+[2019-08-25 22:10:00,392][http-nio-8081-exec-9][ERROR][com.johnny.simulationexperimentservice.service.impl.ClassSchedule4TeacherServiceImpl:86] org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'friday_course' at row 1
+### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/ClassSchedule4TeacherMapping.xml]
+### The error may involve com.johnny.simulationexperimentservice.mapper.ClassSchedule4TeacherMapper.insert-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO simulation_experiment.class_schedule_teacher (       system_id,       teacher_id,       course_order,       monday_course,       tuesday_course,       wednesday_course,       thursday_course,       friday_course,       saturday_course,       sunday_course,        create_user,       update_user     )     VALUES (       ?,       ?,       ?,       ?,       ?,       ?,       ?,       ?,       ?,       ?,       ?,       ?     )
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'friday_course' at row 1
+; SQL []; Data truncation: Data too long for column 'friday_course' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'friday_course' at row 1
+[2019-08-25 22:16:24,609][http-nio-8081-exec-3][ERROR][com.johnny.simulationexperimentservice.service.impl.ClassSchedule4TeacherServiceImpl:43] org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException: Parameter 'arg2' not found. Available parameters are [arg1, arg0, param1, param2]
