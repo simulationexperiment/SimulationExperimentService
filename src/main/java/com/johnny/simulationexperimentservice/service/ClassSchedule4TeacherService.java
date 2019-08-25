@@ -8,4 +8,8 @@ import com.johnny.simulationexperimentservice.vo.UnifiedResponse;
 public interface ClassSchedule4TeacherService extends BaseService<ClassSchedule4TeacherDTO, ClassSchedule4TeacherVO, ClassSchedule4TeacherEntity> {
 
     UnifiedResponse findListByContent(int systemID, int teacherID);
+
+    UnifiedResponse findClassScheduleList(int systemID);
+
+    UnifiedResponse checkClassScheduled(int systemID, int teacherID, int courseOrder, String days);
 }

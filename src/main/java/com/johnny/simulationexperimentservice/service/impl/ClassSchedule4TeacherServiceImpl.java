@@ -46,6 +46,47 @@ public class ClassSchedule4TeacherServiceImpl implements ClassSchedule4TeacherSe
     }
 
     @Override
+    public UnifiedResponse findClassScheduleList(int systemID) {
+        try {
+            List<ClassSchedule4TeacherVO> modelList = new ArrayList<>();
+            List<ClassSchedule4TeacherEntity> entityList =  myMapper.searchClassScheduleList(systemID);
+            if(entityList == null || entityList.size() == 0){
+                return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
+            }
+            for (ClassSchedule4TeacherEntity entity : entityList) {
+                ClassSchedule4TeacherVO model = new ClassSchedule4TeacherVO();
+                ObjectConvertUtils.toBean(entity, model);
+                modelList.add(model);
+            }
+            return UnifiedResponseManager.buildSearchSuccessResponse(modelList.size(), modelList);
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            return UnifiedResponseManager.buildExceptionResponse();
+        }
+    }
+
+    @Override
+    public UnifiedResponse checkClassScheduled(int systemID, int teacherID, int courseOrder, String days) {
+        try{
+            String[] dayList = days.split(",");
+            List<String> scheduledDays = new ArrayList<>();
+            for (String day : dayList) {
+                int count = myMapper.searchClassScheduleCountByContent(systemID, teacherID, courseOrder, Integer.parseInt(day));
+                if(count > 0){
+                    scheduledDays.add(day);
+                }
+            }
+            if(scheduledDays.size() == 0){
+                return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
+            }
+            return UnifiedResponseManager.buildSearchSuccessResponse(scheduledDays.size(), String.join(",", scheduledDays));
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            return UnifiedResponseManager.buildExceptionResponse();
+        }
+    }
+
+    @Override
     public UnifiedResponse findList(int pageNumber, int pageSize) {
         return null;
     }

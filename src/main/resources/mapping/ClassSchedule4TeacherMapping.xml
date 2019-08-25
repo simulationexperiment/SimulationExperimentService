@@ -34,6 +34,76 @@
       AND teacher_id = #{arg1,jdbcType=INTEGER}
     </if>;
   </select>
+
+  <select id="searchClassScheduleCountByContent" resultType="java.lang.Integer">
+    SELECT
+        COUNT(1) AS TotalCount
+    FROM simulation_experiment.class_schedule_teacher
+    WHERE 1=1
+    <if test="arg0 != 0">
+      AND system_id = #{arg0,jdbcType=INTEGER}
+    </if>
+    <if test="arg1 != 0">
+      AND teacher_id != #{arg1,jdbcType=INTEGER}
+    </if>
+    <if test="arg2 != 0">
+      AND course_order = #{arg2,jdbcType=INTEGER}
+    </if>
+    <if test="arg3 == 1">
+      AND monday_course != ''
+    </if>
+    <if test="arg3 == 2">
+      AND tuesday_course != ''
+    </if>
+    <if test="arg3 == 3">
+      AND wednesday_course != ''
+    </if>
+    <if test="arg3 == 4">
+      AND thursday_course != ''
+    </if>
+    <if test="arg3 == 5">
+      AND friday_course != ''
+    </if>
+    <if test="arg3 == 6">
+      AND saturday_course != ''
+    </if>
+    <if test="arg3 == 7">
+      AND sunday_course != ''
+    </if>;
+  </select>
+
+  <select id="searchClassScheduleList" resultMap="BaseResultMap">
+    SELECT
+      A.schedule_id,
+      A.system_id,
+      B.system_name,
+      A.teacher_id,
+      E.full_name AS teacher_name,
+      A.course_order,
+      A.monday_course,
+      A.tuesday_course,
+      A.wednesday_course,
+      A.thursday_course,
+      A.friday_course,
+      A.saturday_course,
+      A.sunday_course,
+      C.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      D.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.class_schedule_teacher A
+    LEFT JOIN simulation_experiment.system_data B
+    ON A.system_id = B.system_id
+    LEFT JOIN simulation_experiment.system_users C
+    ON A.create_user = C.user_id
+    LEFT JOIN simulation_experiment.system_users D
+    ON A.update_user = D.user_id
+    LEFT JOIN simulation_experiment.system_users E
+    ON A.teacher_id = E.user_id
+    WHERE A.system_id = #{arg0,jdbcType=INTEGER}
+    ORDER BY A.course_order;
+  </select>
+
   <select id="searchList" resultMap="BaseResultMap">
 
   </select>

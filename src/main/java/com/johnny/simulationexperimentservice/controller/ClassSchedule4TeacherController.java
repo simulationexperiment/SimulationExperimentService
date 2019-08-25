@@ -13,8 +13,21 @@ public class ClassSchedule4TeacherController {
     private ClassSchedule4TeacherServiceImpl myService;
 
     @RequestMapping(value = "/{systemID}/{teacherID}", method = RequestMethod.GET)
-    public UnifiedResponse findSystemData(@PathVariable("systemID") int systemID, @PathVariable("teacherID") int teacherID){
+    public UnifiedResponse findList(@PathVariable("systemID") int systemID, @PathVariable("teacherID") int teacherID){
         return myService.findListByContent(systemID, teacherID);
+    }
+
+    @RequestMapping(value = "/scheduleList/{systemID}", method = RequestMethod.GET)
+    public UnifiedResponse findClassScheduleList(@PathVariable("systemID") int systemID){
+        return myService.findClassScheduleList(systemID);
+    }
+
+    @RequestMapping(value = "/checkClassScheduled/{systemID}/{teacherID}/{courseOrder}/{days}", method = RequestMethod.GET)
+    public UnifiedResponse checkClassScheduled(@PathVariable("systemID") int systemID,
+                                               @PathVariable("teacherID") int teacherID,
+                                               @PathVariable("courseOrder") int courseOrder,
+                                               @PathVariable("days") String days){
+        return myService.checkClassScheduled(systemID, teacherID, courseOrder, days);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
