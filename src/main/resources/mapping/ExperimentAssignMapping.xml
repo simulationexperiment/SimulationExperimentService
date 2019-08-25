@@ -11,6 +11,7 @@
     <result column="experiment_type_name" property="experimentTypeName" jdbcType="VARCHAR" />
     <result column="experiment_id" property="experimentID" jdbcType="INTEGER" />
     <result column="experiment_name" property="experimentName" jdbcType="VARCHAR" />
+    <result column="experiment_content" property="experimentContent" jdbcType="VARCHAR" />
     <result column="experiment_times" property="experimentTimes" jdbcType="INTEGER" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -48,6 +49,7 @@
       E.experiment_type_name,
       A.experiment_id,
       G.experiment_name,
+      G.experiment_content,
       A.experiment_times,
       B.full_name AS create_user,
       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
@@ -80,6 +82,7 @@
     E.experiment_type_name,
     A.experiment_id,
     G.experiment_name,
+    G.experiment_content,
     A.experiment_times,
     B.full_name AS create_user,
     DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
@@ -122,6 +125,7 @@
       E.experiment_type_name,
       A.experiment_id,
       G.experiment_name,
+      G.experiment_content,
       A.experiment_times,
       B.full_name AS create_user,
       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,

@@ -13,5 +13,6 @@ public class ExperimentAssignEntity extends BaseEntity {
     private String experimentTypeName;
     private int experimentID;
     private String experimentName;
+    private String experimentContent;
     private int experimentTimes;
 }
