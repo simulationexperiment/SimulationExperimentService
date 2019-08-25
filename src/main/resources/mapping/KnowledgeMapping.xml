@@ -52,13 +52,15 @@
       C.system_name,
       B.full_name AS create_user,
       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
-      B.full_name AS update_user,
+      D.full_name AS update_user,
       DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
     FROM simulation_experiment.knowledge A
     LEFT JOIN simulation_experiment.system_users B
     ON A.create_user = B.user_id
     LEFT JOIN simulation_experiment.system_data C
     ON A.system_id = C.system_id
+    LEFT JOIN simulation_experiment.system_users D
+    ON A.update_user = D.user_id
     WHERE 1=1
     <if test="arg2 != 0">
       AND A.system_id = #{arg2,jdbcType=INTEGER}

@@ -24,15 +24,16 @@ public class ExperimentReportServiceImpl implements ExperimentReportService {
 
     private Logger logger = LogManager.getLogger(ExperimentReportServiceImpl.class);
     @Override
-    public UnifiedResponse findListByContent(int pageNumber, int pageSize, int systemID, int courseID, int experimentTypeID, String reportStatus) {
+    public UnifiedResponse findListByContent(int pageNumber, int pageSize, int systemID, int courseID, int experimentTypeID, String reportStatus, int createUser, int auditorID) {
         try {
             int startIndex = (pageNumber - 1) * pageSize;
             List<ExperimentReportVO> modelList = new ArrayList<>();
-            int totalCount = myMapper.searchTotalCountByContent(systemID, courseID, experimentTypeID, reportStatus.equals("A") ? null : reportStatus);
+
+            int totalCount = myMapper.searchTotalCountByContent(systemID, courseID, experimentTypeID, reportStatus.equals("A") ? null : reportStatus, createUser == 1 ? 0 : createUser, auditorID == 1 ? 0 : auditorID);
             if(totalCount == 0){
                 return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
             }
-            List<ExperimentReportEntity> entityList =  myMapper.searchListByContent(startIndex, pageSize, systemID, courseID, experimentTypeID, reportStatus.equals("A") ? null : reportStatus);
+            List<ExperimentReportEntity> entityList =  myMapper.searchListByContent(startIndex, pageSize, systemID, courseID, experimentTypeID, reportStatus.equals("A") ? null : reportStatus, createUser == 1 ? 0 : createUser, auditorID == 1 ? 0 : auditorID);
             for (ExperimentReportEntity entity : entityList) {
                 ExperimentReportVO model = new ExperimentReportVO();
                 ObjectConvertUtils.toBean(entity, model);

@@ -6,7 +6,13 @@ import com.johnny.simulationexperimentservice.vo.TeachingResourceVO;
 import com.johnny.simulationexperimentservice.vo.UnifiedResponse;
 
 public interface TeachingResourceService extends BaseService<TeachingResourceDTO, TeachingResourceVO, TeachingResourceEntity> {
-    UnifiedResponse findListByContent(int pageNumber, int pageSize, int systemID, int courseID, int resourceTypeID, String resourceStatus);
+    UnifiedResponse findListByContent(int pageNumber,
+                                      int pageSize,
+                                      int systemID,
+                                      int courseID,
+                                      int resourceTypeID,
+                                      String resourceStatus,
+                                      int auditorID);
 
     UnifiedResponse changeStatus(TeachingResourceDTO dto);
 }

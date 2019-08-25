@@ -26,15 +26,19 @@ public class TeachingResourceServiceImpl implements TeachingResourceService {
     private Logger logger = LogManager.getLogger(TeachingResourceServiceImpl.class);
 
     @Override
-    public UnifiedResponse findListByContent(int pageNumber, int pageSize, int systemID, int courseID, int resourceTypeID, String resourceStatus) {
+    public UnifiedResponse findListByContent(int pageNumber, int pageSize, int systemID, int courseID, int resourceTypeID, String resourceStatus, int auditorID) {
         try {
             int startIndex = (pageNumber - 1) * pageSize;
             List<TeachingResourceVO> modelList = new ArrayList<>();
-            int totalCount = myMapper.searchTotalCountByContent(systemID, courseID, resourceTypeID, resourceStatus.equals("null") ? null : resourceStatus);
+            if(auditorID == 0 || auditorID == 1){
+                auditorID = 0;
+            }
+            int totalCount = myMapper.searchTotalCountByContent(systemID, courseID, resourceTypeID, resourceStatus.equals("null") ? null : resourceStatus, auditorID);
             if(totalCount == 0){
                 return UnifiedResponseManager.buildSearchSuccessResponse(ResponseDataConstant.NO_SEARCH_COUNT, ResponseDataConstant.NO_DATA);
             }
-            List<TeachingResourceEntity> entityList =  myMapper.searchListByContent(startIndex, pageSize, systemID, courseID, resourceTypeID, resourceStatus.equals("null") ? null : resourceStatus);
+
+            List<TeachingResourceEntity> entityList =  myMapper.searchListByContent(startIndex, pageSize, systemID, courseID, resourceTypeID, resourceStatus.equals("null") ? null : resourceStatus, auditorID);
             for (TeachingResourceEntity entity : entityList) {
                 TeachingResourceVO model = new TeachingResourceVO();
                 ObjectConvertUtils.toBean(entity, model);

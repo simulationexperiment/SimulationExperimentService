@@ -89,7 +89,7 @@
       A.exercises_content,
       B.full_name AS create_user,
       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
-      B.full_name AS update_user,
+      H.full_name AS update_user,
       DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
     FROM simulation_experiment.exercises A
     LEFT JOIN simulation_experiment.system_users B
@@ -104,6 +104,8 @@
     ON A.exercises_type_id = F.exercises_type_id
     LEFT JOIN simulation_experiment.experiment_type_data G
     ON A.experiment_type_id = G.experiment_type_id
+    LEFT JOIN simulation_experiment.system_users H
+    ON A.update_user = H.user_id
     WHERE 1=1
     <if test="arg2 != 0">
       AND A.system_id = #{arg2,jdbcType=INTEGER}

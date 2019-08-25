@@ -10,14 +10,16 @@ public interface TeachingResourceMapper extends BaseMapper<TeachingResourceEntit
     int searchTotalCountByContent(int systemID,
                                   int courseID,
                                   int resourceTypeID,
-                                  String resourceStatus);
+                                  String resourceStatus,
+                                  int auditorID);
 
     List<TeachingResourceEntity> searchListByContent(int startIndex,
                                                      int pageSize,
                                                      int systemID,
                                                      int courseID,
                                                      int resourceTypeID,
-                                                     String resourceStatus);
+                                                     String resourceStatus,
+                                                     int auditorID);
 
     int changeStatus(TeachingResourceEntity entity);
 }

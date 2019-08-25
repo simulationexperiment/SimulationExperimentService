@@ -41,6 +41,9 @@
     </if>
     <if test="arg3 != null">
       AND resource_status = #{arg3,jdbcType=VARCHAR}
+    </if>
+    <if test="arg4 != 0">
+      AND auditor_id = #{arg4,jdbcType=INTEGER}
     </if>;
   </select>
   <select id="searchList" resultMap="BaseResultMap">
@@ -101,7 +104,7 @@
       END AS resource_status_text,
       B.full_name AS create_user,
       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
-      B.full_name AS update_user,
+      G.full_name AS update_user,
       DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
     FROM simulation_experiment.teaching_resource A
     LEFT JOIN simulation_experiment.system_users B
@@ -114,6 +117,8 @@
     ON A.resource_type_id = E.source_type_id
     LEFT JOIN simulation_experiment.system_users F
     ON A.auditor_id = F.user_id
+    LEFT JOIN simulation_experiment.system_users G
+    ON A.update_user = G.user_id
     WHERE 1=1
     <if test="arg2 != 0">
       AND A.system_id = #{arg2,jdbcType=INTEGER}
@@ -126,6 +131,9 @@
     </if>
     <if test="arg5 != null">
       AND A.resource_status = #{arg5,jdbcType=VARCHAR}
+    </if>
+    <if test="arg6 != 0">
+      AND A.auditor_id = #{arg6,jdbcType=INTEGER}
     </if>
     ORDER BY A.update_time DESC
     LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};

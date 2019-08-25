@@ -12,14 +12,16 @@ public class ExperimentReportController {
     @Autowired
     private ExperimentReportServiceImpl myService;
 
-    @RequestMapping(value = "/{pageNumber}/{pageSize}/{systemID}/{courseID}/{experimentTypeID}/{reportStatus}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{pageNumber}/{pageSize}/{systemID}/{courseID}/{experimentTypeID}/{reportStatus}/{createUser}/{auditorID}", method = RequestMethod.GET)
     public UnifiedResponse findSystemData(@PathVariable("pageNumber") int pageNumber,
                                           @PathVariable("pageSize") int pageSize,
                                           @PathVariable("systemID") int systemID,
                                           @PathVariable("courseID") int courseID,
                                           @PathVariable("experimentTypeID") int experimentTypeID,
-                                          @PathVariable("reportStatus") String reportStatus){
-        return myService.findListByContent(pageNumber, pageSize, systemID, courseID, experimentTypeID, reportStatus);
+                                          @PathVariable("reportStatus") String reportStatus,
+                                          @PathVariable("createUser") int createUser,
+                                          @PathVariable("auditorID") int auditorID){
+        return myService.findListByContent(pageNumber, pageSize, systemID, courseID, experimentTypeID, reportStatus, createUser, auditorID);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

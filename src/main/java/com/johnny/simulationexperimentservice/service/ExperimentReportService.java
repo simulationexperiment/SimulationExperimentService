@@ -11,7 +11,9 @@ public interface ExperimentReportService extends BaseService<ExperimentReportDTO
                                       int systemID,
                                       int courseID,
                                       int experimentTypeID,
-                                      String reportStatus);
+                                      String reportStatus,
+                                      int createUser,
+                                      int auditorID);
 
     UnifiedResponse changeScore(ExperimentReportDTO dto);
 }

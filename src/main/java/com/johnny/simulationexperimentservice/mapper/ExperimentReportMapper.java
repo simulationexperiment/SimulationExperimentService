@@ -7,14 +7,21 @@ import java.util.List;
 
 @Mapper
 public interface ExperimentReportMapper extends BaseMapper<ExperimentReportEntity> {
-    int searchTotalCountByContent(int systemID, int courseID, int experimentTypeID, String reportStatusID);
+    int searchTotalCountByContent(int systemID,
+                                  int courseID,
+                                  int experimentTypeID,
+                                  String reportStatusID,
+                                  int createUser,
+                                  int auditorID);
 
     List<ExperimentReportEntity> searchListByContent(int startIndex,
                                                      int pageSize,
                                                      int systemID,
                                                      int courseID,
                                                      int experimentTypeID,
-                                                     String reportStatusID);
+                                                     String reportStatusID,
+                                                     int createUser,
+                                                     int auditorID);
 
     int updateScore(ExperimentReportEntity entity);
 }
