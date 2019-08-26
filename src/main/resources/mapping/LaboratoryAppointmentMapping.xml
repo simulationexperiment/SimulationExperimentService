@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.johnny.simulationexperimentservice.mapper.LaboratoryAppointmentMapper" >
+  <resultMap id="BaseResultMap" type="com.johnny.simulationexperimentservice.entity.LaboratoryAppointmentEntity" >
+    <id column="appointment_id" property="appointmentID" jdbcType="INTEGER" />
+    <result column="laboratory_date" property="laboratoryDate" jdbcType="VARCHAR" />
+    <result column="course_order" property="courseOrder" jdbcType="INTEGER" />
+    <result column="laboratory_id" property="laboratoryID" jdbcType="INTEGER" />
+    <result column="laboratory_name" property="laboratoryName" jdbcType="VARCHAR" />
+
+    <result column="appointment_user" property="appointmentUser" jdbcType="INTEGER" />
+
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="searchTotalCount" resultType="java.lang.Integer">
+
+  </select>
+  <select id="searchTotalCountByContent" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.appointment_laboratory
+    WHERE laboratory_date BETWEEN #{arg0,jdbcType=TIMESTAMP} AND #{arg1,jdbcType=TIMESTAMP};
+  </select>
+
+  <select id="searchScheduledCountByContent" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.appointment_laboratory
+    WHERE laboratory_date = #{arg0,jdbcType=TIMESTAMP}
+    AND course_order = #{arg1,jdbcType=INTEGER}
+    AND laboratory_id = #{arg2,jdbcType=INTEGER}
+  </select>
+
+  <select id="searchList" resultMap="BaseResultMap">
+
+  </select>
+  <select id="searchListByContent" resultMap="BaseResultMap">
+    SELECT
+    A.appointment_id,
+    DATE_FORMAT(A.laboratory_date, '%Y-%m-%d') AS laboratory_date,
+    A.course_order,
+    A.laboratory_id,
+    B.laboratory_name,
+    A.create_user AS appointment_user,
+    C.full_name AS create_user,
+    DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+    D.full_name AS update_user,
+    DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.appointment_laboratory A
+    LEFT JOIN simulation_experiment.laboratory_data B
+    ON A.laboratory_id = B.laboratory_id
+    LEFT JOIN simulation_experiment.system_users C
+    ON A.create_user = C.user_id
+    LEFT JOIN simulation_experiment.system_users D
+    ON A.update_user = D.user_id
+    WHERE A.laboratory_date BETWEEN #{arg2,jdbcType=TIMESTAMP} AND #{arg3,jdbcType=TIMESTAMP}
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+  <select id="searchByID" resultMap="BaseResultMap">
+
+  </select>
+  <select id="existCheck" resultType="java.lang.Integer">
+
+  </select>
+  <insert id="insert" parameterType="com.johnny.simulationexperimentservice.entity.LaboratoryAppointmentEntity" >
+    INSERT INTO simulation_experiment.appointment_laboratory (
+      laboratory_date,
+      course_order,
+      laboratory_id,
+      create_user,
+      update_user
+    )
+    VALUES (
+      #{laboratoryDate, jdbcType=TIMESTAMP},
+      #{courseOrder, jdbcType=INTEGER},
+      #{laboratoryID, jdbcType=INTEGER},
+      #{createUser, jdbcType=VARCHAR},
+      #{updateUser, jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="update" parameterType="com.johnny.simulationexperimentservice.entity.LaboratoryAppointmentEntity" >
+
+  </update>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    DELETE FROM simulation_experiment.appointment_laboratory
+    WHERE appointment_id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

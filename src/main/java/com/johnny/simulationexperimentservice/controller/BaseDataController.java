@@ -26,6 +26,9 @@ public class BaseDataController {
     @Autowired
     private ExercisesTypeServiceImpl exercisesTypeService;
 
+    @Autowired
+    private LaboratoryServiceImpl laboratoryService;
+
     @RequestMapping(value = "/system/{pageNumber}/{pageSize}", method = RequestMethod.GET)
     public UnifiedResponse findSystemData(@PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize){
         return systemService.findList(pageNumber, pageSize);
@@ -49,5 +52,10 @@ public class BaseDataController {
     @RequestMapping(value = "/exercisesType/{pageNumber}/{pageSize}", method = RequestMethod.GET)
     public UnifiedResponse findExercisesTypeData(@PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize){
         return exercisesTypeService.findList(pageNumber, pageSize);
+    }
+
+    @RequestMapping(value = "/laboratory/{pageNumber}/{pageSize}", method = RequestMethod.GET)
+    public UnifiedResponse findLaboratoryData(@PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize){
+        return laboratoryService.findList(pageNumber, pageSize);
     }
 }
