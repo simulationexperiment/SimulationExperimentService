@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.johnny.simulationexperimentservice.mapper.QuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.johnny.simulationexperimentservice.entity.QuestionEntity" >
+    <id column="question_id" property="questionID" jdbcType="INTEGER" />
+    <result column="question" property="question" jdbcType="VARCHAR" />
+    <result column="question_user" property="questionUser" jdbcType="INTEGER" />
+
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+
+  <select id="searchTotalCount" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1) AS TotalCount
+    FROM simulation_experiment.question;
+  </select>
+  <select id="searchList" resultMap="BaseResultMap">
+    SELECT
+      A.question_id,
+      A.question,
+      A.create_user AS question_user,
+      B.full_name AS create_user,
+      DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+      C.full_name AS update_user,
+      DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time
+    FROM simulation_experiment.question A
+    LEFT JOIN simulation_experiment.system_users B
+    ON A.create_user = B.user_id
+    LEFT JOIN simulation_experiment.system_users C
+    ON A.update_user = C.user_id
+    ORDER BY A.update_time DESC
+    LIMIT #{arg0,jdbcType=INTEGER}, #{arg1,jdbcType=INTEGER};
+  </select>
+
+  <select id="searchByID" resultMap="BaseResultMap">
+
+  </select>
+
+  <select id="existCheck" resultType="java.lang.Integer">
+
+  </select>
+  <insert id="insert" parameterType="com.johnny.simulationexperimentservice.entity.QuestionEntity" >
+    INSERT INTO simulation_experiment.question (
+      question,
+      create_user,
+      update_user
+    )
+    VALUES (
+      #{question, jdbcType=VARCHAR},
+      #{createUser, jdbcType=VARCHAR},
+      #{updateUser, jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="update" parameterType="com.johnny.simulationexperimentservice.entity.QuestionEntity" >
+
+  </update>
+
+  <delete id="delete" parameterType="java.lang.Integer" >
+    DELETE FROM simulation_experiment.question
+    WHERE question_id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

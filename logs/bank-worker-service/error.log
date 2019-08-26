@@ -25,3 +25,11 @@
     A.laboratory_id,
     B.laboratory_name,
     C.full_name AS c' at line 4
+[2019-08-26 14:14:33,653][http-nio-8081-exec-2][ERROR][com.johnny.simulationexperimentservice.service.impl.QAServiceImpl:65] org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Not unique table/alias: 'C'
+### The error may exist in file [/Users/zhangqiang/Documents/04-Project/SimulationExperiment /SourceCode/SimulationExperimentService/target/classes/mapping/AnswerMapping.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT       A.answer_id,       A.question_id,       C.question,       C.answer,       B.full_name AS create_user,       DATE_FORMAT(A.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,       C.full_name AS update_user,       DATE_FORMAT(A.update_time, '%Y-%m-%d %H:%i:%s') AS update_time     FROM simulation_experiment.answer A     LEFT JOIN simulation_experiment.system_users B     ON A.create_user = B.user_id     LEFT JOIN simulation_experiment.system_users C     ON A.update_user = C.user_id     LEFT JOIN simulation_experiment.question C     ON A.question_id = C.question_id     WHERE A.question_id = ?     ORDER BY A.update_time DESC     LIMIT ?, ?;
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Not unique table/alias: 'C'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Not unique table/alias: 'C'
